@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro</title>
+    <title>Invoice Pro - Modern Generator</title>
+    <!-- v1.4.1 - PDF New Tab + Alignment Fix -->
     <!-- html2pdf for native mobile/desktop PDF downloading without OS print dialog -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="index.css"><script src="index.js"></script>
@@ -830,7 +831,7 @@
 
         @media (max-width: 850px) {
             body {
-                padding: 0.75rem;
+                padding: 1rem;
             }
 
             .container {
@@ -844,62 +845,58 @@
 
             .invoice-header {
                 flex-direction: column;
-                gap: 2rem;
-                align-items: center;
-                text-align: center;
+                gap: 1.5rem;
+                align-items: flex-start;
             }
 
-            .brand,
+            .brand {
+                min-width: 100%;
+                text-align: left;
+            }
+
             .meta {
                 min-width: 100%;
-                align-items: center;
-                text-align: center;
-            }
-
-            .meta {
-                align-items: center;
+                align-items: flex-end;
+                text-align: right;
                 border-top: 1px solid var(--glass-border);
-                padding-top: 2rem;
-                width: 100%;
+                padding-top: 1.5rem;
             }
 
             .invoice-title {
-                font-size: 1.75rem;
-                margin-bottom: 1rem;
+                font-size: 2rem;
             }
 
             .meta-item {
                 max-width: 100%;
-                justify-content: center;
-                gap: 2rem;
+                justify-content: flex-end;
             }
 
             .billing-grid {
-                text-align: center;
+                text-align: left;
             }
 
             .bill-to {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }
 
             .items-table {
-                min-width: 700px;
+                min-width: 750px;
                 font-size: 0.9rem;
             }
 
             .totals-area {
                 display: flex;
                 flex-direction: column-reverse;
-                gap: 2.5rem;
-                align-items: center;
+                gap: 2rem;
+                align-items: flex-end;
+                text-align: right;
             }
 
             .totals-summary {
                 width: 100%;
-                max-width: none;
-                margin-left: 0;
+                max-width: 300px;
             }
 
             .summary-item {
@@ -1110,21 +1107,22 @@
                 // Add a class to hide elements during PDF generation (mimics print rules)
                 document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
 
-                html2pdf().set(opt).from(element).save().then(() => {
-                    // Restore original state
+                html2pdf().set(opt).from(element).toPdf().get('pdf').then((pdf) => {
+                    const blobUrl = pdf.output('bloburl');
+                    window.open(blobUrl, '_blank');
+
+                    // Cleanup and restore
                     document.body.classList.remove('pdf-mode');
                     printBtn.disabled = false;
                     printBtn.innerHTML = originalBtnText;
-                    // Restore hidden elements after generation
                     document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
                 }).catch(err => {
                     console.error('PDF Error:', err);
                     document.body.classList.remove('pdf-mode');
                     printBtn.disabled = false;
                     printBtn.innerHTML = originalBtnText;
-                    alert('Error generating PDF. Please try again.');
-                    // Restore hidden elements after generation in case of error
                     document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+                    alert('Error generating PDF. Please try again.');
                 });
             });
 

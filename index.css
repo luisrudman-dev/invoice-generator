@@ -819,7 +819,7 @@
 
         @media (max-width: 850px) {
             body {
-                padding: 0.75rem;
+                padding: 1rem;
             }
 
             .container {
@@ -833,62 +833,58 @@
 
             .invoice-header {
                 flex-direction: column;
-                gap: 2rem;
-                align-items: center;
-                text-align: center;
+                gap: 1.5rem;
+                align-items: flex-start;
             }
 
-            .brand,
+            .brand {
+                min-width: 100%;
+                text-align: left;
+            }
+
             .meta {
                 min-width: 100%;
-                align-items: center;
-                text-align: center;
-            }
-
-            .meta {
-                align-items: center;
+                align-items: flex-end;
+                text-align: right;
                 border-top: 1px solid var(--glass-border);
-                padding-top: 2rem;
-                width: 100%;
+                padding-top: 1.5rem;
             }
 
             .invoice-title {
-                font-size: 1.75rem;
-                margin-bottom: 1rem;
+                font-size: 2rem;
             }
 
             .meta-item {
                 max-width: 100%;
-                justify-content: center;
-                gap: 2rem;
+                justify-content: flex-end;
             }
 
             .billing-grid {
-                text-align: center;
+                text-align: left;
             }
 
             .bill-to {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
             }
 
             .items-table {
-                min-width: 700px;
+                min-width: 750px;
                 font-size: 0.9rem;
             }
 
             .totals-area {
                 display: flex;
                 flex-direction: column-reverse;
-                gap: 2.5rem;
-                align-items: center;
+                gap: 2rem;
+                align-items: flex-end;
+                text-align: right;
             }
 
             .totals-summary {
                 width: 100%;
-                max-width: none;
-                margin-left: 0;
+                max-width: 300px;
             }
 
             .summary-item {
