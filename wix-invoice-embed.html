@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro - Modern Generator</title>
-    <!-- v1.4.1 - PDF New Tab + Alignment Fix -->
+    <title>Invoice Pro - v1.5.1</title>
+    <!-- v1.5.1 - NO-CENTERING PROFESSIONAL MOBILE -->
     <!-- html2pdf for native mobile/desktop PDF downloading without OS print dialog -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
@@ -830,76 +830,92 @@
 
         @media (max-width: 850px) {
             body {
-                padding: 1rem;
+                padding: 10px !important;
+                font-size: 13px !important;
             }
 
             .container {
-                max-width: 100%;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             .glass-panel {
-                padding: 1.5rem;
-                border-radius: var(--radius-md);
+                padding: 15px !important;
+                margin: 0 !important;
+                width: 100% !important;
+                border-radius: 0 !important;
+                /* Edge to edge is more mobile-pro */
+                box-sizing: border-box !important;
+                border-left: none !important;
+                border-right: none !important;
             }
 
             .invoice-header {
-                flex-direction: column;
-                gap: 1.5rem;
-                align-items: flex-start;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 25px !important;
             }
 
             .brand {
-                min-width: 100%;
-                text-align: left;
+                width: 100% !important;
+                text-align: left !important;
             }
 
             .meta {
-                min-width: 100%;
-                align-items: flex-end;
-                text-align: right;
-                border-top: 1px solid var(--glass-border);
-                padding-top: 1.5rem;
-            }
-
-            .invoice-title {
-                font-size: 2rem;
+                width: 100% !important;
+                align-items: flex-end !important;
+                text-align: right !important;
+                border-top: 1px solid var(--glass-border) !important;
+                padding-top: 20px !important;
             }
 
             .meta-item {
-                max-width: 100%;
-                justify-content: flex-end;
+                max-width: 100% !important;
+                justify-content: flex-end !important;
+                margin: 2px 0 !important;
+                width: 100% !important;
             }
 
-            .billing-grid {
-                text-align: left;
+            .invoice-title {
+                font-size: 28px !important;
+                margin-bottom: 10px !important;
             }
 
-            .bill-to {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
+            .items-container {
+                margin: 20px -15px !important;
+                padding: 0 15px !important;
+                width: calc(100% + 30px) !important;
+                overflow-x: auto !important;
             }
 
             .items-table {
-                min-width: 750px;
-                font-size: 0.9rem;
+                min-width: 700px !important;
             }
 
             .totals-area {
-                display: flex;
-                flex-direction: column-reverse;
-                gap: 2rem;
-                align-items: flex-end;
-                text-align: right;
+                flex-direction: column-reverse !important;
+                align-items: flex-end !important;
+                text-align: right !important;
+                gap: 20px !important;
             }
 
             .totals-summary {
-                width: 100%;
-                max-width: 300px;
+                width: 100% !important;
+                max-width: 280px !important;
             }
 
-            .summary-item {
-                padding: 0.75rem 0;
+            .header-content {
+                gap: 5px !important;
+            }
+
+            .logo-text {
+                font-size: 1.1rem !important;
+            }
+
+            .actions .btn {
+                padding: 8px 12px !important;
+                font-size: 12px !important;
             }
         }
     </style>
