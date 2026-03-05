@@ -9,7 +9,7 @@
             --accent-hover: #fbbf24;
             --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(0, 0, 0, 0.08);
-            /* Dark subtle border */
+            /* Dark subtle */
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
             --bg-gradient: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
             /* Light Grey */
@@ -22,6 +22,20 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
         }
 
         [data-theme="dark"] {
@@ -86,17 +100,16 @@
         }
 
         .header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1.5rem;
             width: 100%;
+            margin-bottom: 2rem;
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .logo-text {
@@ -187,12 +200,13 @@
         }
 
         .meta-item {
-            display: grid;
-            grid-template-columns: minmax(80px, auto) 1fr;
-            gap: 1.5rem;
-            align-items: baseline;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
             width: 100%;
             max-width: 320px;
+            margin-bottom: 0.25rem;
         }
 
         .meta-item label {
@@ -203,7 +217,9 @@
         }
 
         .meta-item span {
-            text-align: left;
+            text-align: right;
+            flex: 1;
+            font-weight: 500;
         }
 
         .divider {
@@ -234,9 +250,12 @@
 
         .items-container {
             margin-bottom: 2rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .items-table {
+            min-width: 800px;
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;

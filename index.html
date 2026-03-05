@@ -20,7 +20,7 @@
             --accent-hover: #fbbf24;
             --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(0, 0, 0, 0.08);
-            /* Dark subtle border */
+            /* Dark subtle */
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
             --bg-gradient: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
             /* Light Grey */
@@ -33,6 +33,20 @@
             --radius-md: 12px;
             --radius-lg: 16px;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
         }
 
         [data-theme="dark"] {
@@ -97,17 +111,16 @@
         }
 
         .header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 1.5rem;
             width: 100%;
+            margin-bottom: 2rem;
         }
 
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 100%;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .logo-text {
@@ -198,12 +211,13 @@
         }
 
         .meta-item {
-            display: grid;
-            grid-template-columns: minmax(80px, auto) 1fr;
-            gap: 1.5rem;
-            align-items: baseline;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
             width: 100%;
             max-width: 320px;
+            margin-bottom: 0.25rem;
         }
 
         .meta-item label {
@@ -214,7 +228,9 @@
         }
 
         .meta-item span {
-            text-align: left;
+            text-align: right;
+            flex: 1;
+            font-weight: 500;
         }
 
         .divider {
@@ -245,9 +261,12 @@
 
         .items-container {
             margin-bottom: 2rem;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .items-table {
+            min-width: 800px;
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;
@@ -1015,21 +1034,29 @@
 
             printBtn.addEventListener('click', () => {
                 const element = document.getElementById('invoiceArea');
+                const originalBtnText = printBtn.innerHTML;
+
+                // Show loading state
+                printBtn.disabled = true;
+                printBtn.innerHTML = `
+                    <svg class="spin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+                    </svg>
+                    Saving...`;
 
                 // Trigger precise PDF compact formatting
                 document.body.classList.add('pdf-mode');
-
-                // IMPORTANT: Scroll to the absolute top-left to prevent html2canvas from cropping the left side on mobile screens
                 window.scrollTo(0, 0);
 
                 const opt = {
-                    margin: [0.5, 0.5], // 0.5 inch margins
+                    margin: [0.3, 0.3], // Tighter margins for better fit
                     filename: `${invoiceNumberDisplay.textContent.trim()}.pdf`,
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: {
-                        scale: 3, // Lowered scale to 3 for better clarity
+                        scale: 2, // Scale 2 is sufficient and faster/stabler
                         useCORS: true,
-                        allowTaint: true
+                        letterRendering: true,
+                        windowWidth: 750 // Force precise width for mobile snapshots
                     },
                     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
                 };
@@ -1038,9 +1065,20 @@
                 document.querySelectorAll('.no-print').forEach(el => el.style.display = 'none');
 
                 html2pdf().set(opt).from(element).save().then(() => {
+                    // Restore original state
+                    document.body.classList.remove('pdf-mode');
+                    printBtn.disabled = false;
+                    printBtn.innerHTML = originalBtnText;
                     // Restore hidden elements after generation
                     document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
+                }).catch(err => {
+                    console.error('PDF Error:', err);
                     document.body.classList.remove('pdf-mode');
+                    printBtn.disabled = false;
+                    printBtn.innerHTML = originalBtnText;
+                    alert('Error generating PDF. Please try again.');
+                    // Restore hidden elements after generation in case of error
+                    document.querySelectorAll('.no-print').forEach(el => el.style.display = '');
                 });
             });
 
