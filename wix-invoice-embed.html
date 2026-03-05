@@ -850,73 +850,98 @@
                 box-sizing: border-box !important;
                 border-left: none !important;
                 border-right: none !important;
+                background: white !important;
             }
 
-            .invoice-header {
-                flex-direction: column !important;
-                align-items: flex-start !important;
-                gap: 25px !important;
-            }
-
-            .brand {
+            /* --- Transform Table to Cards --- */
+            .items-table,
+            .items-table thead,
+            .items-table tbody,
+            .items-table tr,
+            .items-table td {
+                display: block !important;
                 width: 100% !important;
-                text-align: left !important;
             }
 
-            .meta {
-                width: 100% !important;
-                align-items: flex-end !important;
+            .items-table thead {
+                display: none !important;
+                /* Hide headers */
+            }
+
+            .item-row {
+                background: var(--bg-card);
+                border: 1px solid var(--glass-border) !important;
+                border-radius: 12px;
+                padding: 15px !important;
+                margin-bottom: 20px !important;
+                position: relative;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            }
+
+            .item-row td {
+                border: none !important;
+                padding: 8px 0 !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
                 text-align: right !important;
-                border-top: 1px solid var(--glass-border) !important;
-                padding-top: 20px !important;
             }
 
-            .meta-item {
-                max-width: 100% !important;
-                justify-content: flex-end !important;
-                margin: 2px 0 !important;
-                width: 100% !important;
+            .item-row td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                font-size: 11px;
+                text-align: left;
             }
 
-            .invoice-title {
-                font-size: 28px !important;
-                margin-bottom: 10px !important;
+            .col-desc {
+                font-weight: 700;
+                font-size: 15px !important;
+                margin-bottom: 10px;
+                border-bottom: 1px solid var(--glass-border) !important;
+                padding-bottom: 15px !important;
+                justify-content: flex-start !important;
             }
 
-            .items-container {
-                margin: 20px -15px !important;
-                padding: 0 15px !important;
-                width: calc(100% + 30px) !important;
-                overflow-x: auto !important;
+            .col-desc::before {
+                display: none !important;
             }
 
-            .items-table {
-                min-width: 700px !important;
+            .unit-input,
+            .qty-input,
+            .price-input {
+                width: 120px !important;
+                background: white !important;
+                border: 1px solid var(--glass-border) !important;
+                padding: 6px !important;
+            }
+
+            .col-action {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: auto !important;
+                padding: 0 !important;
+            }
+
+            .btn-remove {
+                opacity: 1 !important;
+                background: #fef2f2 !important;
             }
 
             .totals-area {
                 flex-direction: column-reverse !important;
-                align-items: flex-end !important;
-                text-align: right !important;
-                gap: 20px !important;
+                align-items: stretch !important;
             }
 
-            .totals-summary {
-                width: 100% !important;
-                max-width: 280px !important;
+            .invoice-header {
+                gap: 15px !important;
             }
 
-            .header-content {
-                gap: 5px !important;
-            }
-
-            .logo-text {
-                font-size: 1.1rem !important;
-            }
-
-            .actions .btn {
-                padding: 8px 12px !important;
-                font-size: 12px !important;
+            .meta {
+                padding-top: 15px !important;
             }
         }
     </style>
@@ -1012,10 +1037,12 @@
                     <tbody id="itemsBody">
                         <tr class="item-row">
                             <td contenteditable="true" class="col-desc">Custom Web Development</td>
-                            <td class="col-unit"><input type="number" value="1" class="unit-input"></td>
-                            <td class="col-qty"><input type="number" value="10" class="qty-input"></td>
-                            <td class="col-price"><input type="number" value="150" class="price-input"></td>
-                            <td class="col-total row-total" contenteditable="true">$1,500.00</td>
+                            <td class="col-unit" data-label="Unit"><input type="number" value="1" class="unit-input">
+                            </td>
+                            <td class="col-qty" data-label="Qty"><input type="number" value="10" class="qty-input"></td>
+                            <td class="col-price" data-label="Rate"><input type="number" value="150"
+                                    class="price-input"></td>
+                            <td class="col-total row-total" data-label="Total" contenteditable="true">$1,500.00</td>
                             <td class="no-print col-action"><button class="btn-remove" title="Remove Item"><svg
                                         xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1177,10 +1204,10 @@
                 newRow.className = 'item-row';
                 newRow.innerHTML = `
                     <td contenteditable="true" class="col-desc">New Item</td>
-                    <td class="col-unit"><input type="number" value="1" class="unit-input"></td>
-                    <td class="col-qty"><input type="number" value="1" class="qty-input"></td>
-                    <td class="col-price"><input type="number" value="0" class="price-input"></td>
-                    <td class="col-total row-total" contenteditable="true">$0.00</td>
+                    <td class="col-unit" data-label="Unit"><input type="number" value="1" class="unit-input"></td>
+                    <td class="col-qty" data-label="Qty"><input type="number" value="1" class="qty-input"></td>
+                    <td class="col-price" data-label="Rate"><input type="number" value="0" class="price-input"></td>
+                    <td class="col-total row-total" data-label="Total" contenteditable="true">$0.00</td>
                     <td class="no-print col-action">
                         <button class="btn-remove" title="Remove Item">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
