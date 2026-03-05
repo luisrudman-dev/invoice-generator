@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Pro - v1.6.3</title>
-    <!-- v1.6.3 - ZERO-SCROLL HARDENED MOBILE -->
+    <title>Invoice Pro - v1.6.4</title>
+    <!-- v1.6.4 - DECOUPLED PDF RESTORATION -->
     <!-- html2pdf for native mobile/desktop PDF downloading without OS print dialog -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="index.css"><script src="index.js"></script>
@@ -651,9 +651,12 @@
 
         .pdf-mode .meta {
             text-align: right !important;
+            align-items: flex-end !important;
             display: flex !important;
             flex-direction: column !important;
-            align-items: flex-end !important;
+            width: auto !important;
+            border: none !important;
+            padding: 0 !important;
         }
 
         .pdf-mode .invoice-title {
@@ -665,9 +668,10 @@
 
         .pdf-mode .meta-item {
             display: grid !important;
-            grid-template-columns: 80px 140px !important;
-            gap: 10px !important;
+            grid-template-columns: 80px 120px !important;
+            gap: 5px !important;
             text-align: right !important;
+            justify-content: flex-end !important;
         }
 
         .pdf-mode .meta-item label {
@@ -677,45 +681,6 @@
 
         .pdf-mode .meta-item span {
             text-align: left !important;
-        }
-
-        .pdf-mode .items-table {
-            display: table !important;
-            width: 100% !important;
-            border-collapse: collapse !important;
-            margin: 20px 0 !important;
-        }
-
-        .pdf-mode .items-table th,
-        .pdf-mode .items-table td {
-            padding: 6px !important;
-            border-bottom: 1px solid #eee !important;
-            font-size: 12px !important;
-        }
-
-        .pdf-mode .col-desc {
-            width: 45% !important;
-            text-align: left !important;
-        }
-
-        .pdf-mode .col-unit {
-            width: 10% !important;
-            text-align: center !important;
-        }
-
-        .pdf-mode .col-qty {
-            width: 10% !important;
-            text-align: center !important;
-        }
-
-        .pdf-mode .col-price {
-            width: 15% !important;
-            text-align: center !important;
-        }
-
-        .pdf-mode .col-total {
-            width: 20% !important;
-            text-align: right !important;
         }
 
         .pdf-mode .totals-area {
@@ -745,6 +710,10 @@
             width: 100% !important;
             text-align: inherit !important;
             padding: 0 !important;
+        }
+
+        .pdf-mode .no-print {
+            display: none !important;
         }
 
         @media (max-width: 768px) {
@@ -843,14 +812,16 @@
         }
 
         @media (max-width: 850px) {
-            body {
+
+            /* ONLY apply mobile card layout if NOT in PDF generation mode */
+            body:not(.pdf-mode) {
                 padding: 10px !important;
                 font-size: 13px !important;
                 overflow-x: hidden !important;
                 position: relative !important;
             }
 
-            .container {
+            body:not(.pdf-mode) .container {
                 width: 100% !important;
                 max-width: 100% !important;
                 margin: 0 !important;
@@ -858,7 +829,7 @@
                 overflow-x: hidden !important;
             }
 
-            .glass-panel {
+            body:not(.pdf-mode) .glass-panel {
                 padding: 15px !important;
                 margin: 0 !important;
                 width: 100% !important;
@@ -870,19 +841,19 @@
                 box-shadow: none !important;
             }
 
-            .items-container {
+            body:not(.pdf-mode) .items-container {
                 overflow-x: visible !important;
                 width: 100% !important;
                 margin: 20px 0 !important;
                 padding: 0 !important;
             }
 
-            /* --- Transform Table to Cards --- */
-            .items-table,
-            .items-table thead,
-            .items-table tbody,
-            .items-table tr,
-            .items-table td {
+            /* --- Transform Table to Cards (Web EDITING ONLY) --- */
+            body:not(.pdf-mode) .items-table,
+            body:not(.pdf-mode) .items-table thead,
+            body:not(.pdf-mode) .items-table tbody,
+            body:not(.pdf-mode) .items-table tr,
+            body:not(.pdf-mode) .items-table td {
                 display: block !important;
                 width: 100% !important;
                 min-width: 0 !important;
@@ -891,12 +862,12 @@
                 box-sizing: border-box !important;
             }
 
-            .items-table thead {
+            body:not(.pdf-mode) .items-table thead {
                 display: none !important;
                 /* Hide headers */
             }
 
-            .item-row {
+            body:not(.pdf-mode) .item-row {
                 background: #f8fafc;
                 border: 1px solid var(--glass-border) !important;
                 border-radius: 12px;
@@ -907,7 +878,7 @@
                 width: 100% !important;
             }
 
-            .item-row td {
+            body:not(.pdf-mode) .item-row td {
                 border: none !important;
                 padding: 10px 0 !important;
                 display: flex !important;
@@ -915,7 +886,7 @@
                 align-items: center !important;
             }
 
-            .item-row td::before {
+            body:not(.pdf-mode) .item-row td::before {
                 content: attr(data-label);
                 font-weight: 700;
                 color: var(--text-muted);
@@ -924,7 +895,7 @@
                 text-align: left;
             }
 
-            .col-desc {
+            body:not(.pdf-mode) .col-desc {
                 font-weight: 700;
                 font-size: 14px !important;
                 margin-bottom: 10px !important;
@@ -934,13 +905,13 @@
                 text-align: left !important;
             }
 
-            .col-desc::before {
+            body:not(.pdf-mode) .col-desc::before {
                 display: none !important;
             }
 
-            .unit-input,
-            .qty-input,
-            .price-input {
+            body:not(.pdf-mode) .unit-input,
+            body:not(.pdf-mode) .qty-input,
+            body:not(.pdf-mode) .price-input {
                 width: 100px !important;
                 max-width: 40% !important;
                 background: white !important;
@@ -950,37 +921,42 @@
                 text-align: right !important;
             }
 
-            .col-action {
+            body:not(.pdf-mode) .col-action {
                 position: absolute;
                 top: 10px;
                 right: 10px;
                 width: auto !important;
             }
 
-            .btn-remove {
+            body:not(.pdf-mode) .btn-remove {
                 opacity: 1 !important;
                 /* Always visible on mobile */
                 background: #fff5f5 !important;
                 border: 1px solid #fee2e2 !important;
             }
 
-            .totals-area {
+            body:not(.pdf-mode) .totals-area {
                 flex-direction: column-reverse !important;
                 align-items: stretch !important;
                 gap: 15px !important;
             }
 
-            .invoice-header {
+            body:not(.pdf-mode) .invoice-header {
                 gap: 10px !important;
                 margin-bottom: 15px !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
             }
 
-            .meta {
+            body:not(.pdf-mode) .meta {
                 padding-top: 15px !important;
                 border-top: 1px solid var(--glass-border) !important;
+                width: 100% !important;
+                align-items: flex-end !important;
+                text-align: right !important;
             }
 
-            .logo-text {
+            body:not(.pdf-mode) .logo-text {
                 font-size: 1rem !important;
             }
         }
