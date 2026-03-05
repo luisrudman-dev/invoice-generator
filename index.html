@@ -332,15 +332,16 @@
             background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
             border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: var(--transition);
             opacity: 0;
+            padding: 0;
         }
 
         .item-row:hover .btn-remove {
@@ -350,7 +351,7 @@
         .btn-remove:hover {
             background: #ef4444;
             color: white;
-            transform: rotate(90deg);
+            transform: scale(1.1);
         }
 
         .totals-area {
@@ -1016,7 +1017,17 @@
                             <td class="col-qty"><input type="number" value="10" class="qty-input"></td>
                             <td class="col-price"><input type="number" value="150" class="price-input"></td>
                             <td class="col-total row-total" contenteditable="true">$1,500.00</td>
-                            <td class="no-print col-action"><button class="btn-remove">&times;</button></td>
+                            <td class="no-print col-action"><button class="btn-remove" title="Remove Item"><svg
+                                        xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path
+                                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                        </path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg></button></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1171,7 +1182,11 @@
                     <td class="col-qty"><input type="number" value="1" class="qty-input"></td>
                     <td class="col-price"><input type="number" value="0" class="price-input"></td>
                     <td class="col-total row-total" contenteditable="true">$0.00</td>
-                    <td class="no-print col-action"><button class="btn-remove">&times;</button></td>
+                    <td class="no-print col-action">
+                        <button class="btn-remove" title="Remove Item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </td>
                 `;
                 itemsBody.appendChild(newRow);
                 setupRowListeners(newRow);
